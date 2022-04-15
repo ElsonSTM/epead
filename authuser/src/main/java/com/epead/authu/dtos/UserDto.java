@@ -1,5 +1,6 @@
 package com.epead.authu.dtos;
 
+import com.epead.authu.validation.UsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class UserDto {
 
     @NotBlank(groups = UserView.RegistrationPost.class) //Não aceitar valor vazio
     @Size(min = 5, max = 51, groups = UserView.RegistrationPost.class)
+    @UsernameConstraint(groups = UserView.RegistrationPost.class)
     @JsonView(UserView.RegistrationPost.class)
     private String username;
 
