@@ -33,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
         List<ModuleModel> moduleModelList = moduleRepository.findAllLModulesIntoCourse(courseModel.getCourseId());
         if (moduleModelList.isEmpty()) {
             for(ModuleModel module : moduleModelList){
-                List<LessonModel> lessonModelList = lessonRepository.findAllLessonsIntoModule(module.getModuleID());
+                List<LessonModel> lessonModelList = lessonRepository.findAllLessonsIntoModule(module.getModuleId());
                 if (!lessonModelList.isEmpty()){
                     lessonRepository.deleteAll(lessonModelList);
                 }
@@ -42,7 +42,6 @@ public class CourseServiceImpl implements CourseService {
         }
         courseRepository.delete(courseModel);
     }
-
     @Override
     public CourseModel save(CourseModel courseModel) {
         return courseRepository.save(courseModel);
