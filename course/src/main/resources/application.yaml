@@ -16,3 +16,18 @@ spring:
     properties:
       hibernate:
         show_sql: true
+  output:
+    ansi:
+      enabled: Always
+
+logging:
+  level:
+    com.epead: TRACE
+    root: INFO
+    org.sprigframework.web: DEBUG
+    org.hibernate: INFO
+
+epead:
+  api:
+    url:
+      authuser: 'http://localhost:8080'
