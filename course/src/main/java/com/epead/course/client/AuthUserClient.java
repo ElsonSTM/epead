@@ -1,5 +1,6 @@
 package com.epead.course.client;
 
+import com.epead.course.dtos.CourseUserDto;
 import com.epead.course.dtos.ResponsePageDto;
 import com.epead.course.dtos.UserDto;
 import com.epead.course.services.UltilsService;
@@ -57,4 +58,11 @@ public class AuthUserClient {
         return restTemplate.exchange(url, HttpMethod.GET, null, UserDto.class);
     }
 
+    public void postSubscripstionUserInCourse(UUID courseId, UUID userId) {
+        String url = REQUEST_URL_AUTHUSER + "users/" + userId + "/courses/subscription";
+        var courseUserDto = new CourseUserDto();
+        courseUserDto.setUserId(userId);
+        courseUserDto.setCourseId(courseId);
+        restTemplate.postForObject(url, courseUserDto, String.class);
+    }
 }
