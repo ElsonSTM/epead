@@ -1,9 +1,11 @@
 package com.epead.course.services.impl;
 
 import com.epead.course.models.CourseModel;
+import com.epead.course.models.CourseUserModel;
 import com.epead.course.models.LessonModel;
 import com.epead.course.models.ModuleModel;
 import com.epead.course.repositories.CourseRepository;
+import com.epead.course.repositories.CourseUserRepository;
 import com.epead.course.repositories.LessonRepository;
 import com.epead.course.repositories.ModuleRepository;
 import com.epead.course.services.CourseService;
@@ -22,6 +24,9 @@ import java.util.UUID;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
+    CourseUserRepository courseUserRepository;
+
+    @Autowired
     CourseRepository courseRepository;
 
     @Autowired
@@ -34,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(CourseModel courseModel) {
         List<ModuleModel> moduleModelList = moduleRepository.findAllLModulesIntoCourse(courseModel.getCourseId());
-        if (moduleModelList.isEmpty()) {
+        if (!moduleModelList.isEmpty()) {
             for(ModuleModel module : moduleModelList){
                 List<LessonModel> lessonModelList = lessonRepository.findAllLessonsIntoModule(module.getModuleId());
                 if (!lessonModelList.isEmpty()){
@@ -43,8 +48,14 @@ public class CourseServiceImpl implements CourseService {
             }
             moduleRepository.deleteAll(moduleModelList);
         }
+        List<CourseUserModel> courseUserModelList = courseUserRepository.findAllCourseUserIntoCourse(courseModel.getCourseId());
+        if(!courseUserModelList.isEmpty()){
+            courseUserRepository.deleteAll(courseUserModelList);
+        }
+
         courseRepository.delete(courseModel);
     }
+
     @Override
     public CourseModel save(CourseModel courseModel) {
         return courseRepository.save(courseModel);

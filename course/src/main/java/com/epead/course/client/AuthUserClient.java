@@ -59,7 +59,7 @@ public class AuthUserClient {
     }
 
     public void postSubscripstionUserInCourse(UUID courseId, UUID userId) {
-        String url = REQUEST_URL_AUTHUSER + "users/" + userId + "/courses/subscription";
+        String url = REQUEST_URL_AUTHUSER + "/users/" + userId + "/courses/subscription";
         var courseUserDto = new CourseUserDto();
         courseUserDto.setUserId(userId);
         courseUserDto.setCourseId(courseId);

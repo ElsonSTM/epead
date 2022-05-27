@@ -48,10 +48,10 @@ public class ModuleController {
         BeanUtils.copyProperties(moduleDto, moduleModel);
         moduleModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         moduleModel.setCourse(courseModelOptional.get());
-
+        moduleService.save(moduleModel);
         log.debug("POST saveModule moduleId saved {} ", moduleModel.getModuleId());
         log.info("Module saved successfully moduleId {} ", moduleModel.getModuleId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.save(moduleModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(moduleModel);
     }
 
     @DeleteMapping("/courses/{courseId}/modules/{moduleId}")
