@@ -1,7 +1,6 @@
 server:
   port: 8082
 
-
 spring:
   application:
     name: epead-course-service
@@ -32,7 +31,7 @@ logging:
 epead:
   api:
     url:
-      authuser: 'http://localhost:8080'
+      authuser: 'http://epead-authuser-service'
 
 eureka:
   client:
