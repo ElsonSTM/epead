@@ -33,7 +33,7 @@ logging:
 epead:
   api:
     url:
-      authuser: 'http://epead-authuser-service'
+      authuser: 'http://epead-authuser-service/ead-authuser'
 
 eureka:
   client:
