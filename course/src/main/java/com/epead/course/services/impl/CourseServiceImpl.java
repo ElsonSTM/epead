@@ -1,5 +1,6 @@
 package com.epead.course.services.impl;
 
+import com.epead.course.client.AuthUserClient;
 import com.epead.course.models.CourseModel;
 import com.epead.course.models.CourseUserModel;
 import com.epead.course.models.LessonModel;
@@ -35,9 +36,15 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     LessonRepository lessonRepository;
 
+    @Autowired
+    AuthUserClient authUserClient;
+
     @Transactional
     @Override
     public void delete(CourseModel courseModel) {
+
+        boolean deleteCourseUserInAuthUser = false;
+
         List<ModuleModel> moduleModelList = moduleRepository.findAllLModulesIntoCourse(courseModel.getCourseId());
         if (!moduleModelList.isEmpty()) {
             for(ModuleModel module : moduleModelList){
@@ -51,9 +58,12 @@ public class CourseServiceImpl implements CourseService {
         List<CourseUserModel> courseUserModelList = courseUserRepository.findAllCourseUserIntoCourse(courseModel.getCourseId());
         if(!courseUserModelList.isEmpty()){
             courseUserRepository.deleteAll(courseUserModelList);
+            deleteCourseUserInAuthUser = true;
         }
-
         courseRepository.delete(courseModel);
+        if(deleteCourseUserInAuthUser) {
+            authUserClient.deleteCourseInAuthUser(courseModel.getCourseId());
+        }
     }
 
     @Override

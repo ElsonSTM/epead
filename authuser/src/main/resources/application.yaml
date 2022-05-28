@@ -33,7 +33,7 @@ logging:
 epead:
   api:
     url:
-      course: 'http://epead-course-service/ead-course'
+      course: 'http://epead-course-service/epead-course'
 
 eureka:
   client:
