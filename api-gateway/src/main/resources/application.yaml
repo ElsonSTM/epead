@@ -8,11 +8,11 @@ spring:
     gateway:
       routes:
         - id: authUser-service
-          uri: lb://EPEAD-AUTHUSER-SERVICE
+          uri: lb://epead-authuser-service
           predicates:
             - Path=/epead-authuser/**
         - id: course-service
-          uri: lb://EPEAD-COURSE-SERVICE
+          uri: lb://epead-course-service
           predicates:
             - Path=/epead-course/**
 
