@@ -1,7 +1,7 @@
 package com.epead.course.specifications;
 
 import com.epead.course.models.CourseModel;
-import com.epead.course.models.CourseUserModel;
+import com.epead.course.models.UserModel;
 import com.epead.course.models.LessonModel;
 import com.epead.course.models.ModuleModel;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
@@ -51,14 +51,5 @@ public class SpecificationTemplate {
             return cb.and(cb.equal(module.get("moduleId"), moduleId), cb.isMember(lesson, moduleLessons));
         };
     }
-
-    public static Specification<CourseModel> courseUserId(final UUID userId) {
-        return (root, query, cb) -> {
-            query.distinct(true);
-            Join<CourseModel, CourseUserModel> courseProd = root.join("coursesUsers");
-            return cb.equal(courseProd.get("userId"), userId);
-        };
-    }
-
 }
 

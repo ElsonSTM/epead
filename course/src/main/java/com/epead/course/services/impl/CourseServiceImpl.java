@@ -1,14 +1,12 @@
 package com.epead.course.services.impl;
 
-import com.epead.course.client.AuthUserClient;
 import com.epead.course.models.CourseModel;
-import com.epead.course.models.CourseUserModel;
 import com.epead.course.models.LessonModel;
 import com.epead.course.models.ModuleModel;
 import com.epead.course.repositories.CourseRepository;
-import com.epead.course.repositories.CourseUserRepository;
 import com.epead.course.repositories.LessonRepository;
 import com.epead.course.repositories.ModuleRepository;
+import com.epead.course.repositories.UserRepository;
 import com.epead.course.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +23,7 @@ import java.util.UUID;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    CourseUserRepository courseUserRepository;
+    UserRepository userRepository;
 
     @Autowired
     CourseRepository courseRepository;
@@ -36,14 +34,9 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     LessonRepository lessonRepository;
 
-    @Autowired
-    AuthUserClient authUserClient;
-
     @Transactional
     @Override
     public void delete(CourseModel courseModel) {
-
-        boolean deleteCourseUserInAuthUser = false;
 
         List<ModuleModel> moduleModelList = moduleRepository.findAllLModulesIntoCourse(courseModel.getCourseId());
         if (!moduleModelList.isEmpty()) {
@@ -55,15 +48,7 @@ public class CourseServiceImpl implements CourseService {
             }
             moduleRepository.deleteAll(moduleModelList);
         }
-        List<CourseUserModel> courseUserModelList = courseUserRepository.findAllCourseUserIntoCourse(courseModel.getCourseId());
-        if(!courseUserModelList.isEmpty()){
-            courseUserRepository.deleteAll(courseUserModelList);
-            deleteCourseUserInAuthUser = true;
-        }
         courseRepository.delete(courseModel);
-        if(deleteCourseUserInAuthUser) {
-            authUserClient.deleteCourseInAuthUser(courseModel.getCourseId());
-        }
     }
 
     @Override
