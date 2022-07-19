@@ -1,5 +1,6 @@
 package com.epead.authu.services;
 
+import com.epead.authu.dtos.UserDto;
 import com.epead.authu.models.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +25,7 @@ public interface UserService {
     Page<UserModel> findAll(Specification<UserModel> spec, Pageable pageable);
 
     UserModel saveUser(UserModel userModel);
+    void deleteUser(UserModel userModel);
+    UserModel updateUser(UserModel userModel);
+    UserModel updatePassword(UserModel userModel);
 }
