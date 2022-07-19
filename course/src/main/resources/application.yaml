@@ -36,6 +36,12 @@ epead:
   api:
     url:
       authuser: 'http://epead-authuser-service/epead-authuser'
+  broker:
+    exchange:
+      userEventExchange: epead.userevent
+    queue:
+      userEventQueue:
+        name: epead.userevent.ms.course
 
 eureka:
   client:
