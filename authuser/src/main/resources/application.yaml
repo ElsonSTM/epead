@@ -36,6 +36,9 @@ epead:
   api:
     url:
       course: 'http://epead-course-service/epead-course'
+  broker:
+    exchange:
+      userEvent: epead.userevent
 
 eureka:
   client:

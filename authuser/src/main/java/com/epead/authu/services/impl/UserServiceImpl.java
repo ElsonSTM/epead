@@ -1,7 +1,9 @@
 package com.epead.authu.services.impl;
 
 import com.epead.authu.clients.CourseClient;
+import com.epead.authu.enums.ActionType;
 import com.epead.authu.models.UserModel;
+import com.epead.authu.publishers.UserEventPublisher;
 import com.epead.authu.repositories.UserRepository;
 import com.epead.authu.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     CourseClient courseClient;
 
+    @Autowired
+    UserEventPublisher userEventPublisher;
+
     @Override
     public List<UserModel> findAll() {
         return userRepository.findAll();
@@ -41,9 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(UserModel userModel) {
-        userRepository.save(userModel);
-    }
+    public UserModel save(UserModel userModel) { return userRepository.save(userModel);}
 
     @Override
     public boolean existsByUsername(String username) {
@@ -58,5 +61,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserModel> findAll(Specification<UserModel> spec, Pageable pageable) {
         return userRepository.findAll(spec, pageable);
+    }
+
+    @Transactional
+    @Override
+    public UserModel saveUser(UserModel userModel){
+        userModel = save(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(), ActionType.CREATE);
+        return userModel;
     }
 }
