@@ -59,4 +59,10 @@ public class CourseModel implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private Set<ModuleModel> modules; //Set => Não é ordenado e não permite duplicatas
 
+    @JsonProperty (access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(fetch = FetchType.LAZY) //múltiplos cursos parar múltiplus usuários.
+    @JoinTable(name = "TB_COURSES_USERS",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserModel> users;
 }
